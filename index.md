@@ -9,8 +9,10 @@ La documentación de nuestro proyecto la podran hayar en nuestro repositorio de 
 
 Nuestro equipo esta compuesto por los siguientes integrantes:
 1. Francisco Javier Quijano Suarez 
-  - Lider de equipo encargado de comunicación y gestion de tareas
+  1. Lider de equipo encargado de comunicación y gestion de tareas
 2. Damian Moreno Mireles
-  - 
+  2. 
 3. Daniel Medina Camara
+  3. 
 4. Luis Angel Martinez
+  4.
