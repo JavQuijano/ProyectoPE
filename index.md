@@ -8,7 +8,9 @@ La documentación de nuestro proyecto la podran hayar en nuestro repositorio de 
 [Drive Repository](https://drive.google.com/drive/folders/0BzIZsOicXDolZm4zZlR2OHBxU1E?usp=sharing)
 
 Nuestro equipo esta compuesto por los siguientes integrantes:
-- Francisco Javier Quijano Suarez 
-- Damian Moreno Mireles
-- Daniel Medina Camara
-- Luis Angel Martinez
+1. Francisco Javier Quijano Suarez 
+  - Lider de equipo encargado de comunicación y gestion de tareas
+2. Damian Moreno Mireles
+  - 
+3. Daniel Medina Camara
+4. Luis Angel Martinez
