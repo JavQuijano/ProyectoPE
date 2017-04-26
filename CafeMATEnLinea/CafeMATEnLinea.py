@@ -5,7 +5,7 @@ import controlAdministrador
 
 
 def main():
-    opcion = int(input("""Bienvenido a CafeMATEnLinea
+    opcion = int(input(""" Bienvenido a CafeMATEnLinea
     Opciones Disponibles:
     1. Iniciar Sesion
     2. Crear Nueva Cuenta

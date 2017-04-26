@@ -1,5 +1,4 @@
 import sqlite3
-
 connUsuarios = sqlite3.connect('usuariosbd.db')
 cursorUsuarios = connUsuarios.cursor()
 connProductos = sqlite3.connect('productosbd.db')
@@ -10,10 +9,10 @@ def main():
     tablaUsuarios()
     tablaProductos()
     # cerramos conexiones con las bases de datos
-    connUsuarios.close()
     cursorUsuarios.close()
-    connProductos.close()
+    connUsuarios.close()
     cursorProductos.close()
+    connProductos.close()
 
 
 def tablaUsuarios():
@@ -39,3 +38,5 @@ def tablaProductos():
     except sqlite3.OperationalError:
         print('la tabla no se creo correctamente')
 
+
+main()
