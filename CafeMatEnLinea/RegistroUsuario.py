@@ -1,6 +1,8 @@
 import sqlite3
+
 connUsuarios = sqlite3.connect('usuariosbd.db')
 cursor = connUsuarios.cursor()
+
 
 def main():
     # Ingresamos la información que queremos ingresar a la base de datos.
@@ -28,6 +30,7 @@ def verificarUsuario(email, verEmail):
     while bandera != 1:
         if email == verEmail:
             bandera = 1
+            # Se analiza si el correo ya existe dentro de la base de datos.
             if correo == []:
                 bandera = 1
             else:
@@ -38,13 +41,16 @@ def verificarUsuario(email, verEmail):
             print('ingrese nuevamente el correo electronico')
             email = input('Ingrese su email: ')
             verEmail = input('Vuelva a ingresar su email: ')
+    # se confirma la validez del correo electronico.
     print('Correo electronico correcto')
     emailFinal = email
     return emailFinal
 
 
+# funcion que verifica que las 2 veces que se ingreso la contraseña correspondan entre si.
 def verificarContraseña(contraseña, verContraseña):
     bandera = 0
+    # ciclo para analizar la validez de la contraseña.
     while bandera != 1:
         if contraseña == verContraseña:
             bandera = 1
@@ -52,15 +58,14 @@ def verificarContraseña(contraseña, verContraseña):
             print('Ingrese nuevamente la contraseña')
             contraseña = input('Ingrese su contraseña: ')
             verContraseña = input('Vuelva a ingresar su contraseña: ')
+    #se confirma la validez de la contraseña
     print('Contraseña correcta')
     contraseñaFinal = contraseña
     return contraseñaFinal
 
 
+# funcion para agregar el usuario  validado a la base de datos.
 def agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal):
     cursor.execute("""INSERT INTO usuarios(nombre, email, contraseña) VALUES
     (?, ?, ?)""", (nombreCompleto, emailFinal, contraseñaFinal))
     connUsuarios.commit()
-
-
-main()

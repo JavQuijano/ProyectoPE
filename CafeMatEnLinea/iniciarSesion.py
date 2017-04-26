@@ -3,13 +3,14 @@ import sqlite3
 connUsuarios = sqlite3.connect('usuariosbd.db')
 cursor = connUsuarios.cursor()
 
-def main():
-    correo = input('Ingresar su correo electronico: ')
-    contraseña = input('Ingresar su contraseña: ')
+def main(correo, contraseña):
     verificarBaseDatos(correo, contraseña)
     # cerramos conexiones con las bases de datos
+    cursor.execute("SELECT id FROM usuarios WHERE email = ?", (correo,))
+    identificador = cursor.fetchone()
     cursor.close()
     connUsuarios.close()
+    return identificador
 
 
 
@@ -32,5 +33,3 @@ def verificarBaseDatos(correo, contraseña):
             print('la contraseña no corresponde con el correo, favor de ingresarla nuevamente.')
             contraseña = input('Ingrese su contraseña: ')
             contraseña = [(contraseña,)]
-
-main()

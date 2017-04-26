@@ -1,8 +1,8 @@
 import sqlite3
-import random
 
 connProductos = sqlite3.connect('productosbd.db')
 cursorProductos = connProductos.cursor()
+
 
 def main():
     cursorProductos.execute("SELECT * FROM productos")
@@ -22,14 +22,14 @@ def confirmarPedido(pedido, cantidadProductos):
         cursorProductos.execute("SELECT producto FROM productos WHERE ID = ?", (pedido[i],))
         nombreProducto = cursorProductos.fetchone()
         print("Precio Producto {} es: {}".format(nombreProducto, precioProducto))
-    confirmacion = input('Esta correcta su orden? "SI o NO"\n')
-    if confirmacion == "SI":
-        compraNueva = input('Gracias por su orden, ¿Desea ordenar algo mas?: "SI o NO"\n')
-        if compraNueva == "SI":
+    confirmacion = input('Esta correcta su orden? "1 = SI o 2 = NO"\n')
+    if confirmacion == "1":
+        compraNueva = input('Gracias por su orden, ¿Desea ordenar algo mas?: "1 = SI o 2 = NO"\n')
+        if compraNueva == "1":
+            # Implementacion de notificacion por correo aqui enviar variable "pedido".
             main()
-            # Implementacion de notificacion por correo aqui.
         else:
-            # Implementacion de notificaion por correo aqui.
+            # Implementacion de notificaion por correo aqui enviar variable "pedido".
             cursorProductos.close()
             connProductos.close()
     else:
@@ -42,6 +42,3 @@ def requerirPedido(cantidadProductos):
     for i in range(int(cantidadProductos)):
         pedido.append(input('producto {}:'.format(i + 1)))
     return pedido
-
-
-main()
