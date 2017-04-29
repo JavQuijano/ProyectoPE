@@ -2,16 +2,19 @@ import iniciarSesion
 import registroUsuario
 import controlUsuario
 import controlAdministrador
+import sys
+import sqlite3
+connCafe = sqlite3.connect("CafeMAT.db")
+cursorCafe = connCafe.cursor()
 
 
 def main():
-    opcion = int(input(""" Bienvenido a CafeMATEnLinea
+    bandera = 0
+    opcion = int(input("""Bienvenido a CafeMATEnLinea
     Opciones Disponibles:
     1. Iniciar Sesion
     2. Crear Nueva Cuenta
     3. Cerrar Programa\n"""))
-
-    bandera = 0
     while bandera != 1:
         if opcion == 1:
             correo = input('Ingresar su correo electronico: ')
@@ -19,16 +22,18 @@ def main():
             identificador = iniciarSesion.main(correo, contraseña)
             if identificador == (1,):
                 controlAdministrador.main()
-                bandera = 1
+            elif identificador == "falso":
+                sys.exit()
             else:
                 controlUsuario.main()
-                bandera = 1
         elif opcion == 2:
             registroUsuario.main()
-            bandera = 1
+            sys.exit()
         else:
-            bandera = 1
-    print("Hasta Luego, Muchas Gracias!!!")
+            print("Hasta Luego, Muchas Gracias!!!")
+            cursorCafe.close()
+            connCafe.close()
+            sys.exit()
 
 
 main()

@@ -1,7 +1,6 @@
 import sqlite3
-
-connUsuarios = sqlite3.connect('usuariosbd.db')
-cursor = connUsuarios.cursor()
+connCafe = sqlite3.connect('CafeMAT.db')
+cursorCafe = connCafe.cursor()
 
 
 def main():
@@ -16,16 +15,15 @@ def main():
     contraseñaFinal = verificarContraseña(contraseña, verContraseña)
     # Llamamos a la funcion que ingresara la informacion final a la base de datos.
     agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal)
-    # Cerramos conexiones con las bases de datos.
-    cursor.close()
-    connUsuarios.close()
+    import CafeMATEnLinea
+    CafeMATEnLinea.main()
 
 
 # Esta funcion verifica la validez del correo, al igual que checa si hay otro igual en la base de datos.
 def verificarUsuario(email, verEmail):
     bandera = 0
-    cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
-    correo = cursor.fetchall()
+    cursorCafe.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
+    correo = cursorCafe.fetchall()
     # Ciclo en el cual se analiza la validez del correo
     while bandera != 1:
         if email == verEmail:
@@ -66,6 +64,6 @@ def verificarContraseña(contraseña, verContraseña):
 
 # funcion para agregar el usuario  validado a la base de datos.
 def agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal):
-    cursor.execute("""INSERT INTO usuarios(nombre, email, contraseña) VALUES
+    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña) VALUES
     (?, ?, ?)""", (nombreCompleto, emailFinal, contraseñaFinal))
-    connUsuarios.commit()
+    connCafe.commit()
