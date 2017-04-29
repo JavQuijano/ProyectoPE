@@ -1,9 +1,6 @@
 import sqlite3
-
-connUsuarios = sqlite3.connect('usuariosbd.db')
-cursorUsuarios = connUsuarios.cursor()
-connProductos = sqlite3.connect('productosbd.db')
-cursorProductos = connProductos.cursor()
+connCafe = sqlite3.connect('CafeMAT.db')
+cursorCafe = connCafe.cursor()
 
 
 def main():
@@ -20,30 +17,28 @@ def main():
     elif opcion == 3:
         notificarUsuario()
     else:
-        cursorProductos.close()
-        connProductos.close()
-        cursorUsuarios.close()
-        connUsuarios.close()
         print("Adios Administrador!")
+        import CafeMATEnLinea
+        CafeMATEnLinea.main()
 
 
 def eliminarUsuarios():
     mostrarUsuarios()
     eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))
-    cursorUsuarios.execute("SELECT * FROM usuarios WHERE ID = ?", (eliminado,))
-    usuario = cursorUsuarios.fetchall()
-    confirmacion = input("Desea eliminar a {}? 'SI' o 'NO'\n".format(usuario))
-    if confirmacion == 'SI':
-        cursorUsuarios.execute("DELETE FROM usuarios WHERE ID = ?", (eliminado,))
-        connUsuarios.commit()
-        regresar = input("Desea regresar al menu principal? 'SI' o 'NO'\n")
-        if regresar == 'SI':
+    cursorCafe.execute("SELECT * FROM usuarios WHERE id = ?", (eliminado,))
+    usuario = cursorCafe.fetchall()
+    confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(usuario))
+    if confirmacion == '1':
+        cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (eliminado,))
+        connCafe.commit()
+        regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
+        if regresar == '1':
             main()
         else:
             eliminarUsuarios()
     else:
-        regresar = input("Desea regresar al menu principal? 'SI' o 'NO'\n")
-        if regresar == 'SI':
+        regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
+        if regresar == '1':
             main()
         else:
             eliminarUsuarios()
@@ -81,33 +76,33 @@ def modificarProducto():
     else:
         main()
 
-
+# pasar a basededatos.py
 def modificarPrecio():
     mostrarMenu()
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
-    cursorProductos.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorProductos.fetchall()
+    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
+    productoAModificar = cursorCafe.fetchall()
     print("Se Modificara el precio de {}".format(productoAModificar))
     nuevoPrecio = input("Ingrese el nuevo precio del producto\n")
-    cursorProductos.execute("UPDATE productos SET precio = ? WHERE ID = ?", (nuevoPrecio, modificar,))
-    connProductos.commit()
-    cursorProductos.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorProductos.fetchall()
+    cursorCafe.execute("UPDATE productos SET precio = ? WHERE ID = ?", (nuevoPrecio, modificar,))
+    connCafe.commit()
+    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
+    productoAModificar = cursorCafe.fetchall()
     print("El nuevo producto es {}".format(productoAModificar))
     modificarProducto()
 
-
+# pasar a basededatos.py
 def modificarNombre():
     mostrarMenu()
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
-    cursorProductos.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorProductos.fetchall()
+    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
+    productoAModificar = cursorCafe.fetchall()
     print("Se Modificara el nombre de {}".format(productoAModificar))
     nuevoNombre = input("Ingrese el nuevo nombre del producto\n")
-    cursorProductos.execute("UPDATE productos SET producto = ? WHERE ID = ?", (nuevoNombre, modificar,))
-    connProductos.commit()
-    cursorProductos.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorProductos.fetchall()
+    cursorCafe.execute("UPDATE productos SET producto = ? WHERE ID = ?", (nuevoNombre, modificar,))
+    connCafe.commit()
+    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
+    productoAModificar = cursorCafe.fetchall()
     print("El nuevo producto es {}".format(productoAModificar))
     modificarProducto()
 
@@ -120,13 +115,15 @@ def agregarProducto():
     while opcion == 1:
         nombreProducto = input("Ingresar el nombre del nuevo producto\n")
         precioProducto = input("Ingresar el precio del nuevo producto\n")
-        cursorProductos.execute("""INSERT INTO productos(producto, precio) VALUES
+        # pasar a basededatos.py
+        cursorCafe.execute("""INSERT INTO productos(producto, precio) VALUES
             (?, ?)""", (nombreProducto, precioProducto))
-        connUsuarios.commit()
+        connCafe.commit()
         opcion = int(input("Desea agregar otro producto? 1 = 'SI' o 2 = 'NO'\n"))
     modificarMenu()
 
 
+# pasar a basededatos.py
 def eliminarProducto():
     mostrarMenu()
     opcion = int(input("""Opciones Disponibles:
@@ -134,12 +131,12 @@ def eliminarProducto():
      2. Volver al Menu Principal\n"""))
     if opcion == 1:
         eliminado = int(input("Escriba el ID del producto que desea eliminar\n"))
-        cursorProductos.execute("SELECT * FROM productos WHERE ID = ?", (eliminado,))
-        producto = cursorProductos.fetchall()
+        cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (eliminado,))
+        producto = cursorCafe.fetchall()
         confirmacion = int(input("Desea eliminar a {}? 1 = SI o 2 = NO\n".format(producto)))
         if confirmacion == 1:
-            cursorProductos.execute("DELETE FROM productos WHERE ID = ?", (eliminado,))
-            connProductos.commit()
+            cursorCafe.execute("DELETE FROM productos WHERE ID = ?", (eliminado,))
+            connCafe.commit()
         regresar = int(input("Desea regresar al menu principal? 1 = SI o 2 = NO\n"))
         if regresar == 1:
             main()
@@ -152,8 +149,8 @@ def eliminarProducto():
 def notificarUsuario():
     mostrarUsuarios()
     usuario = int(input("ID del usuario a Notificar:\n"))
-    cursorUsuarios.execute("SELECT email FROM usuarios WHERE id = ?", (usuario,))
-    correo = cursorUsuarios.fetchone()
+    cursorCafe.execute("SELECT email FROM usuarios WHERE id = ?", (usuario,))
+    correo = cursorCafe.fetchone()
     opcion = int(input("""\nOpciones Disponibles:
     1. Orden Lista
     2. Cambio/Cancelacion de Orden
@@ -177,15 +174,15 @@ def cambioOrden(correo):
 
 
 def mostrarMenu():
-    cursorProductos.execute("SELECT * FROM productos")
+    cursorCafe.execute("SELECT * FROM productos")
     print(""""MENU ACTUAL
 (ID, PRODUCTO, PRECIO)""")
-    for producto in cursorProductos.fetchall():
+    for producto in cursorCafe.fetchall():
         print(producto)
 
 
 def mostrarUsuarios():
-    cursorUsuarios.execute("SELECT * FROM usuarios")
+    cursorCafe.execute("SELECT * FROM usuarios")
     print("ID, Nombre, E-Mail, Contraseña")
-    for linea in cursorUsuarios.fetchall():
+    for linea in cursorCafe.fetchall():
         print(linea)
