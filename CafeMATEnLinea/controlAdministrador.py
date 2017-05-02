@@ -1,8 +1,11 @@
+# modulo para el manejo de base de datos
 import sqlite3
+# coneccion con la base de datos
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
 
 
+# menu principal del administrador
 def main():
     opcion = int(input("""  Bienvenido Administrador
     Seleccione la opcion deseada:
@@ -22,15 +25,18 @@ def main():
         CafeMATEnLinea.main()
 
 
+# funcion para la eliminacion de usuarios
 def eliminarUsuarios():
     mostrarUsuarios()
     eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))
     cursorCafe.execute("SELECT * FROM usuarios WHERE id = ?", (eliminado,))
     usuario = cursorCafe.fetchall()
+    # confirma si se desea eliminar al usuario seleccionado
     confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(usuario))
     if confirmacion == '1':
         cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (eliminado,))
         connCafe.commit()
+        # confirma si se desea regresar al menu principal
         regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
         if regresar == '1':
             main()
@@ -44,6 +50,7 @@ def eliminarUsuarios():
             eliminarUsuarios()
 
 
+# menu para la modificacion de los productos en el menu
 def modificarMenu():
     opcion = int(input("""Opciones Disponibles
     1. Modificar Producto Existente
@@ -60,6 +67,7 @@ def modificarMenu():
         main()
 
 
+# menu para elegir que se requiere modificar de algun producto en el menu
 def modificarProducto():
     opcion = int(input("""¿Que Desea Modificar?
     Opciones Disponibles
@@ -76,37 +84,44 @@ def modificarProducto():
     else:
         main()
 
-# pasar a basededatos.py
+
+# funcion para modificar el precio de algun producto
 def modificarPrecio():
     mostrarMenu()
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
     cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
     productoAModificar = cursorCafe.fetchall()
+    # se confirma con el administrador el producto a modificar
     print("Se Modificara el precio de {}".format(productoAModificar))
     nuevoPrecio = input("Ingrese el nuevo precio del producto\n")
     cursorCafe.execute("UPDATE productos SET precio = ? WHERE ID = ?", (nuevoPrecio, modificar,))
     connCafe.commit()
     cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
     productoAModificar = cursorCafe.fetchall()
+    # se muestran los cambios realizados
     print("El nuevo producto es {}".format(productoAModificar))
     modificarProducto()
 
-# pasar a basededatos.py
+
+# funcion para modificar el nombre de algun producto
 def modificarNombre():
     mostrarMenu()
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
     cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
     productoAModificar = cursorCafe.fetchall()
+    # se confirma con el administrador el producto a modificar
     print("Se Modificara el nombre de {}".format(productoAModificar))
     nuevoNombre = input("Ingrese el nuevo nombre del producto\n")
     cursorCafe.execute("UPDATE productos SET producto = ? WHERE ID = ?", (nuevoNombre, modificar,))
     connCafe.commit()
     cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
     productoAModificar = cursorCafe.fetchall()
+    # se muestran los cambios realizados
     print("El nuevo producto es {}".format(productoAModificar))
     modificarProducto()
 
 
+# funcion para agregar nuevos productos a la base de datos
 def agregarProducto():
     mostrarMenu()
     opcion = int(input("""Opciones Disponibles:
@@ -115,7 +130,7 @@ def agregarProducto():
     while opcion == 1:
         nombreProducto = input("Ingresar el nombre del nuevo producto\n")
         precioProducto = input("Ingresar el precio del nuevo producto\n")
-        # pasar a basededatos.py
+        # se agrega el producto a la base de datos
         cursorCafe.execute("""INSERT INTO productos(producto, precio) VALUES
             (?, ?)""", (nombreProducto, precioProducto))
         connCafe.commit()
@@ -123,7 +138,7 @@ def agregarProducto():
     modificarMenu()
 
 
-# pasar a basededatos.py
+# funcion para eliminar los productos de la base de datos
 def eliminarProducto():
     mostrarMenu()
     opcion = int(input("""Opciones Disponibles:
@@ -133,10 +148,12 @@ def eliminarProducto():
         eliminado = int(input("Escriba el ID del producto que desea eliminar\n"))
         cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (eliminado,))
         producto = cursorCafe.fetchall()
+        # se confirma con el administraodr si desea eliminar el producto seleccionado
         confirmacion = int(input("Desea eliminar a {}? 1 = SI o 2 = NO\n".format(producto)))
         if confirmacion == 1:
             cursorCafe.execute("DELETE FROM productos WHERE ID = ?", (eliminado,))
             connCafe.commit()
+        # se pregunta si se desea regresar el menu o eliminar otro producto.
         regresar = int(input("Desea regresar al menu principal? 1 = SI o 2 = NO\n"))
         if regresar == 1:
             main()
@@ -146,6 +163,7 @@ def eliminarProducto():
         modificarMenu()
 
 
+# funcion para notificar a los usuarios (aun por correo electronico)
 def notificarUsuario():
     mostrarUsuarios()
     usuario = int(input("ID del usuario a Notificar:\n"))
@@ -163,16 +181,19 @@ def notificarUsuario():
         main()
 
 
+# funcion pendiente orden lista
 def ordenLista(correo):
     mensaje = "Su orden ya esta lista, favor de ir a recogerla a la cafeteria!"
     # Aqui va la notificacion por correo enviar variable "mensaje".
 
 
+# funcion pendiente cambio o eliminacion de orden
 def cambioOrden(correo):
     motivo = input("Ingrese el Motivo de el cambio o cancelación de la orden:\n")
     # Aqui va la notificacion por correo enviar variable "motivo".
 
 
+# muestra el menu de productos actual
 def mostrarMenu():
     cursorCafe.execute("SELECT * FROM productos")
     print(""""MENU ACTUAL
@@ -181,6 +202,7 @@ def mostrarMenu():
         print(producto)
 
 
+# muestra la lista de usuarios registrados
 def mostrarUsuarios():
     cursorCafe.execute("SELECT * FROM usuarios")
     print("ID, Nombre, E-Mail, Contraseña")
