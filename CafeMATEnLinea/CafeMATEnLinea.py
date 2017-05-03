@@ -12,7 +12,6 @@ cursorCafe = connCafe.cursor()
 
 # la funcion principal que le dara orden a nuestro programa
 def main():
-    bandera = 0
     # menu principal de inicio de sesion
     opcion = int(input("""Bienvenido a CafeMATEnLinea
     Opciones Disponibles:
@@ -23,24 +22,20 @@ def main():
     if opcion == 1:
         correo = input('Ingresar su correo electronico: ')
         contraseña = input('Ingresar su contraseña: ')
-        identificador = iniciarSesion.main(correo, contraseña)
+        identificador = iniciarSesion.verificarBaseDatos(correo, contraseña)
         # dependiendo del identificador del usuario ejecutaremos el control del admin o del usuario.
         # por otro lado, si el usuario no esta registrado devolvera falso y cerrara el programa.
         if identificador == (1,):
             controlAdministrador.main()
         elif identificador == "falso":
-            cursorCafe.close()
-            connCafe.close()
-            sys.exit()
+            main()
         else:
             controlUsuario.main()
     # ejecuta el programa para registrar a nuevos usuarios
     # al finalizar cierra el programa
     elif opcion == 2:
         registroUsuario.main()
-        cursorCafe.close()
-        connCafe.close()
-        sys.exit()
+        main()
     # cierra el programa si la opcion es seleccionada
     else:
         print("Hasta Luego, Muchas Gracias!!!")
