@@ -19,8 +19,8 @@ def main():
         if opcion == 1:
             correo = input('Ingresar su correo electronico: ')
             contraseña = input('Ingresar su contraseña: ')
-            identificador = iniciarSesion.verificarBaseDatos(correo, contraseña)
-            if identificador == 1:
+            identificador = iniciarSesion.main(correo, contraseña)
+            if identificador == (1,):
                 controlAdministrador.main()
             elif identificador == "falso":
                 sys.exit()
