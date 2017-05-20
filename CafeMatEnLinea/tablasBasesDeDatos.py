@@ -1,8 +1,11 @@
+# importamos el modulo para el manejo de bases de datos
 import sqlite3
+# iniciamos la coneccion con la base de datos
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
 
 
+# funcion principal para crear las diferentes tablas
 def main():
     tablaUsuarios()
     tablaProductos()
@@ -13,6 +16,7 @@ def main():
     connCafe.close()
 
 
+# creacion de la tabla usuarios
 def tablaUsuarios():
     try:
         cursorCafe.execute("""CREATE TABLE IF NOT EXISTS usuarios(
@@ -27,6 +31,7 @@ def tablaUsuarios():
         print('la tabla usuarios no se creo correctamente')
 
 
+# creacion de la tabla productos
 def tablaProductos():
     try:
         cursorCafe.execute("""CREATE TABLE IF NOT EXISTS productos(
@@ -39,6 +44,7 @@ def tablaProductos():
         print('la tabla productos no se creo correctamente')
 
 
+# creacion de la tabla historial de productos
 def tablaHistorial():
     try:
         cursorCafe.execute("""CREATE TABLE IF NOT EXISTS historial(
