@@ -1,24 +1,30 @@
 # modulo para el manejo de base de datos
+import controlBaseDatos
 import sqlite3
 # coneccion con la base de datos
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
-
+dbUsuarios = controlBaseDatos.iniciarUsuarios()
+dbProductos = controlBaseDatos.iniciarProductos()
+dbHistorial = controlBaseDatos.iniciarHistorial()
 
 # menu principal del administrador
 def main():
-    opcion = int(input("""  Bienvenido Administrador
-    Seleccione la opcion deseada:
-    1. Eliminar Usuario
-    2. Modificar Menu
-    3. Notificar Usuario
-    4. Cerrar Programa\n"""))
+    opcion = int(input("""Bienvenido Administrador
+Seleccione la opcion deseada:
+1. Eliminar Usuario
+2. Modificar Menu
+3. Notificar Usuario
+4. Consultar Ordenes
+5. Cerrar Programa\n"""))
     if opcion == 1:
         eliminarUsuarios()
     elif opcion == 2:
         modificarMenu()
     elif opcion == 3:
         notificarUsuario()
+    elif opcion == 4:
+        consultarOrdenes()
     else:
         print("Adios Administrador!")
         import CafeMATEnLinea
@@ -195,16 +201,21 @@ def cambioOrden(correo):
 
 # muestra el menu de productos actual
 def mostrarMenu():
-    cursorCafe.execute("SELECT * FROM productos")
     print(""""MENU ACTUAL
 (ID, PRODUCTO, PRECIO)""")
-    for producto in cursorCafe.fetchall():
+    for producto in dbProductos:
         print(producto)
 
 
 # muestra la lista de usuarios registrados
 def mostrarUsuarios():
-    cursorCafe.execute("SELECT * FROM usuarios")
     print("ID, Nombre, E-Mail, Contraseña")
-    for linea in cursorCafe.fetchall():
+    for linea in dbUsuarios:
         print(linea)
+
+
+def consultarOrdenes():
+    print("ID, Productos, Precio, Entregado?")
+    for i in dbHistorial:
+        print(i)
+    main()

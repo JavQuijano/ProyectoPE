@@ -18,7 +18,7 @@ def main():
     emailFinal = verificarUsuario(email, verEmail)
     contraseñaFinal = verificarContraseña(contraseña, verContraseña)
     # Llamamos a la funcion que ingresara la informacion final a la base de datos.
-    agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal)
+    controlBaseDatos.agregarUsuario(nombreCompleto, emailFinal, contraseñaFinal)
     import CafeMATEnLinea
     CafeMATEnLinea.main()
 
@@ -63,10 +63,3 @@ def verificarContraseña(contraseña, verContraseña):
     print('Contraseña correcta')
     contraseñaFinal = contraseña
     return contraseñaFinal
-
-
-# funcion para agregar el usuario  validado a la base de datos.
-def agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal):
-    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña, bandera) VALUES
-    (?, ?, ?, 1)""", (nombreCompleto, emailFinal, contraseñaFinal))
-    connCafe.commit()
