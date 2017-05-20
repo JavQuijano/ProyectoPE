@@ -1,15 +1,18 @@
+# modulo para el manejo de la base de datos
 import sqlite3
+# coneccion con la base de datos
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
 
 
+# menu principal para los usuarios
 def main():
     opcion = int(input("""Bienvenido Usuario
     Opciones Disponibles:
     1. Realizar Pedido
     2. Cambiar Informacion de Perfil
     3. Historial de Compras
-    4. Cerrar Programa\n"""))
+    4. Cerrar sesion\n"""))
     if opcion == 1:
         realizarPedido()
     elif opcion == 2:
@@ -18,12 +21,14 @@ def main():
     elif opcion == 3:
         # funciones consultar tabla historial
         print("place holder")
+    # cierra el programa del usuario y regresa al menu principal
     else:
         print("Adios Usuario!")
         import CafeMATEnLinea
         CafeMATEnLinea.main()
 
 
+# requiere la informacion de pedido del usuario
 def realizarPedido():
     mostrarMenu()
     cantidadProductos = int(input("Ingrese cuantos productos desea comprar: "))
@@ -31,6 +36,7 @@ def realizarPedido():
     confirmarPedido(pedido, cantidadProductos)
 
 
+# confirma con el usuario que su pedido este correcto
 def confirmarPedido(pedido, cantidadProductos):
     for i in range(cantidadProductos):
         cursorCafe.execute("SELECT precio FROM productos WHERE ID = ?", (pedido[i],))
@@ -50,6 +56,7 @@ def confirmarPedido(pedido, cantidadProductos):
         realizarPedido()
 
 
+# organiza el pedido del usuario en un arreglo
 def requerirPedido(cantidadProductos):
     pedido = []
     print("Ingrese el ID de los productos que desea: ")
@@ -58,6 +65,7 @@ def requerirPedido(cantidadProductos):
     return pedido
 
 
+# imprime el menu de productos
 def mostrarMenu():
     cursorCafe.execute("SELECT * FROM productos")
     print('(ID, PRODUCTO, PRECIO)')
