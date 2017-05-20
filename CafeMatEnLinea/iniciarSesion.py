@@ -1,35 +1,28 @@
 import sqlite3
+import controlBaseDatos
 
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
 
 
-def main(correo, contraseña):
-    identificador = verificarBaseDatos(correo, contraseña)
-    return identificador
-
-
 def verificarBaseDatos(correo, contraseña):
     identificador = 0
-    cursorCafe.execute("SELECT * FROM usuarios WHERE email = ?", (correo,))
-    data = cursorCafe.fetchall()
-    contraseña = [(contraseña,)]
+    data = controlBaseDatos.buscarUsuario(correo)
+    print(data)
     bandera = 0
     while bandera != 1:
         if data != []:
-            cursorCafe.execute("SELECT contraseña FROM usuarios WHERE email = ?", (correo,))
-            passw = cursorCafe.fetchall()
+            passw = data[3]
         else:
             print('El correo electronico no esta registrado, favor de crear una cuenta.')
             identificador = "falso"
             break
         if contraseña == passw:
             print('Acceso correcto')
-            cursorCafe.execute("SELECT id FROM usuarios WHERE email = ?", (correo,))
-            identificador = cursorCafe.fetchone()
+            identificador = data[0]
             bandera = 1
         else:
             print('la contraseña no corresponde con el correo, favor de ingresarla nuevamente.')
             contraseña = input('Ingrese su contraseña: ')
-            contraseña = [(contraseña,)]
+        print(identificador)
     return identificador

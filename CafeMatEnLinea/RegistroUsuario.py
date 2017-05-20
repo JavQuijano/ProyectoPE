@@ -64,6 +64,6 @@ def verificarContraseña(contraseña, verContraseña):
 
 # funcion para agregar el usuario  validado a la base de datos.
 def agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal):
-    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña) VALUES
-    (?, ?, ?)""", (nombreCompleto, emailFinal, contraseñaFinal))
+    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña,bandera) VALUES
+    (?, ?, ?,1)""", (nombreCompleto, emailFinal, contraseñaFinal))
     connCafe.commit()
