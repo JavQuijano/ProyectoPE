@@ -64,12 +64,6 @@ def imprimirOrdenes():
         print(orden)
 
 
-<<<<<<< HEAD
-#A partir de aqui, se carga la base de datos en la memoria para realizar las busquedas y modificaciones.
-
-
-=======
->>>>>>> refs/remotes/origin/master
 def iniciarUsuarios():
     listaUsuarios = []
     cursorCafe.execute("SELECT * FROM usuarios")
@@ -80,30 +74,26 @@ def iniciarUsuarios():
     return listaUsuarios
 
 
-<<<<<<< HEAD
-
 def iniciarProductos():
     listaProductos = []
-    cursorCafe.execute("SELECT * FROM usuarios")
+    cursorCafe.execute("SELECT * FROM productos")
     productos = list(cursorCafe.fetchall())
     totalProductos = len(productos)
     for i in range(totalProductos):
-        listaProductos.append(productos[i])
+        listaProductos.append(list(productos[i]))
     return listaProductos
 
 
 def iniciarHistorial():
     listaHistorial = []
-    cursorCafe.execute("SELECT * FROM usuarios")
+    cursorCafe.execute("SELECT * FROM historial")
     historial = list(cursorCafe.fetchall())
     totalHistorial = len(historial)
     for i in range(totalHistorial):
-        listaHistorial.append(historial[i])
+        listaHistorial.append(list(historial[i]))
     return listaHistorial
 
 
-=======
->>>>>>> refs/remotes/origin/master
 def buscarUsuario(email):
     listaUsuarios = iniciarUsuarios()
     usuario = []

@@ -4,7 +4,6 @@ import controlBaseDatos
 def verificarBaseDatos(correo, contraseña):
     identificador = 0
     data = controlBaseDatos.buscarUsuario(correo)
-    print(data)
     bandera = 0
     while bandera != 1:
         if data != []:
@@ -20,10 +19,7 @@ def verificarBaseDatos(correo, contraseña):
         else:
             print('la contraseña no corresponde con el correo, favor de ingresarla nuevamente.')
             contraseña = input('Ingrese su contraseña: ')
-    if data[4] == 0:
-        identificador = "bann"
-<<<<<<< HEAD
+        if data[4] == 0:
+            identificador = "bann"
+            break
     return identificador
-=======
-    return identificador
->>>>>>> refs/remotes/origin/master
