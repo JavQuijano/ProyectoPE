@@ -22,4 +22,8 @@ def verificarBaseDatos(correo, contraseña):
             contraseña = input('Ingrese su contraseña: ')
     if data[4] == 0:
         identificador = "bann"
+<<<<<<< HEAD
     return identificador
+=======
+    return identificador
+>>>>>>> refs/remotes/origin/master
