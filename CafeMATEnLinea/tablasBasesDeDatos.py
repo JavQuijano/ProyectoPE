@@ -23,7 +23,8 @@ def tablaUsuarios():
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         nombre TEXT NOT NULL,
         email TEXT NOT NULL,
-        contraseña TEXT NOT NULL)
+        contraseña TEXT NOT NULL,
+        bandera INTEGER NOT NULL)
         """)
         connCafe.commit()
     except sqlite3.OperationalError:

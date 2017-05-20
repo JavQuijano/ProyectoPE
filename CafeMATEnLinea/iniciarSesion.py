@@ -5,12 +5,6 @@ connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
 
 
-# funcion que devuelve el identificador del usuario
-def main(correo, contraseña):
-    identificador = verificarBaseDatos(correo, contraseña)
-    return identificador
-
-
 # verifica que el correo y la contraseña existan en la base de datos
 def verificarBaseDatos(correo, contraseña):
     identificador = 0

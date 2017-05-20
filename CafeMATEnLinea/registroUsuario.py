@@ -1,5 +1,6 @@
 # modulo para el manejo de bases de datos
 import sqlite3
+import controlBaseDatos
 # coneccion con la base de datos
 connCafe = sqlite3.connect('CafeMAT.db')
 cursorCafe = connCafe.cursor()
@@ -25,14 +26,13 @@ def main():
 # Esta funcion verifica la validez del correo, al igual que checa si hay otro igual en la base de datos.
 def verificarUsuario(email, verEmail):
     bandera = 0
-    cursorCafe.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
-    correo = cursorCafe.fetchall()
+    usuario = controlBaseDatos.buscarUsuario(email)
     # Ciclo en el cual se analiza la validez del correo
     while bandera != 1:
         if email == verEmail:
             bandera = 1
             # Se analiza si el correo ya existe dentro de la base de datos.
-            if correo == []:
+            if usuario == []:
                 bandera = 1
             else:
                 print('El correo que ingreso ya existe, ingrese su correo nuevamente.')
@@ -67,6 +67,6 @@ def verificarContraseña(contraseña, verContraseña):
 
 # funcion para agregar el usuario  validado a la base de datos.
 def agregarABaseUsuarios(nombreCompleto, emailFinal, contraseñaFinal):
-    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña) VALUES
-    (?, ?, ?)""", (nombreCompleto, emailFinal, contraseñaFinal))
+    cursorCafe.execute("""INSERT INTO usuarios(nombre, email, contraseña, bandera) VALUES
+    (?, ?, ?, 1)""", (nombreCompleto, emailFinal, contraseñaFinal))
     connCafe.commit()

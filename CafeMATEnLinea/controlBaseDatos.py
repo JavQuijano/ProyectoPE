@@ -62,3 +62,24 @@ def imprimirOrdenes():
     print("ID, Productos, Precio")
     for orden in cursorCafe.fetchall():
         print(orden)
+
+
+def iniciarUsuarios():
+    listaUsuarios = []
+    cursorCafe.execute("SELECT * FROM usuarios")
+    usuarios = list(cursorCafe.fetchall())
+    totalUsuarios = len(usuarios)
+    for i in range(totalUsuarios):
+        listaUsuarios.append(list(usuarios[i]))
+    return listaUsuarios
+
+
+def buscarUsuario(email):
+    listaUsuarios = iniciarUsuarios()
+    usuario = []
+    for i in range(len(listaUsuarios)):
+        listaEmail = listaUsuarios[i]
+        listaEmail = listaEmail[2]
+        if email == listaEmail:
+                usuario = listaUsuarios[i]
+    return usuario
