@@ -1,8 +1,4 @@
-import sqlite3
 import controlBaseDatos
-
-connCafe = sqlite3.connect('CafeMAT.db')
-cursorCafe = connCafe.cursor()
 
 
 def verificarBaseDatos(correo, contraseña):
@@ -24,5 +20,6 @@ def verificarBaseDatos(correo, contraseña):
         else:
             print('la contraseña no corresponde con el correo, favor de ingresarla nuevamente.')
             contraseña = input('Ingrese su contraseña: ')
-        print(identificador)
+    if data[4] == 0:
+        identificador = "bann"
     return identificador

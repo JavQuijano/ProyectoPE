@@ -64,14 +64,11 @@ def imprimirOrdenes():
         print(orden)
 
 
-#A partir de aqui, se carga la base de datos en la memoria para realizar las busquedas
-
-listaUsuarios = []
-listaProductos = []
-listaHistorial = []
+#A partir de aqui, se carga la base de datos en la memoria para realizar las busquedas y modificaciones.
 
 
 def iniciarUsuarios():
+    listaUsuarios = []
     cursorCafe.execute("SELECT * FROM usuarios")
     usuarios = list(cursorCafe.fetchall())
     totalUsuarios = len(usuarios)
@@ -82,6 +79,7 @@ def iniciarUsuarios():
 
 
 def iniciarProductos():
+    listaProductos = []
     cursorCafe.execute("SELECT * FROM usuarios")
     productos = list(cursorCafe.fetchall())
     totalProductos = len(productos)
@@ -91,6 +89,7 @@ def iniciarProductos():
 
 
 def iniciarHistorial():
+    listaHistorial = []
     cursorCafe.execute("SELECT * FROM usuarios")
     historial = list(cursorCafe.fetchall())
     totalHistorial = len(historial)
