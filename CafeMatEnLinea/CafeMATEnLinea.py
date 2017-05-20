@@ -25,9 +25,12 @@ def main():
         identificador = iniciarSesion.verificarBaseDatos(correo, contraseña)
         # dependiendo del identificador del usuario ejecutaremos el control del admin o del usuario.
         # por otro lado, si el usuario no esta registrado devolvera falso y cerrara el programa.
-        if identificador == (1,):
+        if identificador == 1:
             controlAdministrador.main()
         elif identificador == "falso":
+            main()
+        elif identificador == "bann":
+            print("El usuario esta banneado del sistema.")
             main()
         else:
             controlUsuario.main()
