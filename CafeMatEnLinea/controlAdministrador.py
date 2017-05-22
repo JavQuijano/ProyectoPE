@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+# modulo para el manejo de base de datos
+import controlBaseDatos
+import sqlite3
+# coneccion con la base de datos
+connCafe = sqlite3.connect('CafeMAT.db')
+cursorCafe = connCafe.cursor()
+>>>>>>> refs/remotes/origin/master
 dbUsuarios = controlBaseDatos.iniciarUsuarios()
 dbProductos = controlBaseDatos.iniciarProductos()
 dbHistorial = controlBaseDatos.iniciarHistorial()
