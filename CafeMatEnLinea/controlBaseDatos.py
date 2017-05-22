@@ -105,34 +105,45 @@ def buscarUsuario(email):
     return usuario
 
 
-def buscarIdUsuario(id):
+def buscarIdUsuario(identificador):
     listaUsuarios = iniciarUsuarios()
     usuario = []
     for i in range(len(listaUsuarios)):
         listaEmail = listaUsuarios[i]
         listaEmail = listaEmail[0]
-        if id == listaEmail:
+        if identificador == listaEmail:
             usuario = listaUsuarios[i]
     return usuario
 
 
-def buscarProductos(id):
+def buscarProductos(identificador):
     listaProductos = iniciarProductos()
     producto = []
     for i in range(len(listaProductos)):
         lista = listaProductos[i]
         lista = lista[0]
-        if id == lista:
+        if identificador == lista:
             producto = listaProductos[i]
     return producto
 
 
-def buscarOrdenes(id):
+def buscarOrdenes(identificador):
     listaHistorial = iniciarHistorial()
     historial = []
     for i in range(len(listaHistorial)):
         lista = listaHistorial[i]
         lista = lista[0]
-        if id == lista:
+        if identificador == lista:
             historial = listaHistorial[i]
     return historial
+
+
+def mandarPedidos(dbHistorial):
+    n = 1
+    for i in range(len(dbHistorial)):
+        cursorCafe.execute("DELETE FROM historial WHERE id = ?", (n,))
+        connCafe.commit()
+        cursorCafe.execute("""INSERT INTO historial (pedido, total, entregada)
+        VALUES (?, ?, 0)""", (dbHistorial[i][1], dbHistorial[i][2]))
+        connCafe.commit()
+        n += 1
