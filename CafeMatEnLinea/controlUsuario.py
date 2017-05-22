@@ -64,10 +64,3 @@ def requerirPedido(cantidadProductos):
         pedido.append(input('producto {}:'.format(i + 1)))
     return pedido
 
-
-# imprime el menu de productos
-def mostrarMenu():
-    cursorCafe.execute("SELECT * FROM productos")
-    print('(ID, PRODUCTO, PRECIO)')
-    for producto in cursorCafe.fetchall():
-        print(producto)

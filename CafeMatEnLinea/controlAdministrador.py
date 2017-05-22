@@ -1,9 +1,3 @@
-# modulo para el manejo de base de datos
-import controlBaseDatos
-import sqlite3
-# coneccion con la base de datos
-connCafe = sqlite3.connect('CafeMAT.db')
-cursorCafe = connCafe.cursor()
 dbUsuarios = controlBaseDatos.iniciarUsuarios()
 dbProductos = controlBaseDatos.iniciarProductos()
 dbHistorial = controlBaseDatos.iniciarHistorial()
@@ -35,13 +29,13 @@ Seleccione la opcion deseada:
 def eliminarUsuarios():
     mostrarUsuarios()
     eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))
-    cursorCafe.execute("SELECT * FROM usuarios WHERE id = ?", (eliminado,))
-    usuario = cursorCafe.fetchall()
     # confirma si se desea eliminar al usuario seleccionado
-    confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(usuario))
+    confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(dbUsuario[eliminado]))
     if confirmacion == '1':
-        cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (eliminado,))
-        connCafe.commit()
+        dbUsuarios.remove(eliminado)
+        while dbUsuarios[eliminado] != []:
+            dbUsuarios[eliminado[0]] = eliminado-1
+            eliminado+1
         # confirma si se desea regresar al menu principal
         regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
         if regresar == '1':

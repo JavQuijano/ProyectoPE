@@ -136,3 +136,5 @@ def buscarOrdenes(id):
         if id == lista:
             historial = listaHistorial[i]
     return historial
+
+
