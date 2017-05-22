@@ -30,8 +30,8 @@ def modificarNombre(identificador, nuevoNombre):
 
 # funciones tabla usuarios
 def agregarUsuario(nombre, email, contraseña):
-    cursorCafe.execute("""INSERT INTO usuarios (nombre, email, contraseña)
-    VALUES (?, ?, ?)""", (nombre, email, contraseña))
+    cursorCafe.execute("""INSERT INTO usuarios (nombre, email, contraseña, bandera)
+    VALUES (?, ?, ?, 1)""", (nombre, email, contraseña))
     connCafe.commit()
 
 
@@ -103,3 +103,36 @@ def buscarUsuario(email):
         if email == listaEmail:
                 usuario = listaUsuarios[i]
     return usuario
+
+
+def buscarIdUsuario(id):
+    listaUsuarios = iniciarUsuarios()
+    usuario = []
+    for i in range(len(listaUsuarios)):
+        listaEmail = listaUsuarios[i]
+        listaEmail = listaEmail[0]
+        if id == listaEmail:
+            usuario = listaUsuarios[i]
+    return usuario
+
+
+def buscarProductos(id):
+    listaProductos = iniciarProductos()
+    producto = []
+    for i in range(len(listaProductos)):
+        lista = listaProductos[i]
+        lista = lista[0]
+        if id == lista:
+            producto = listaProductos[i]
+    return producto
+
+
+def buscarOrdenes(id):
+    listaHistorial = iniciarHistorial()
+    historial = []
+    for i in range(len(listaHistorial)):
+        lista = listaHistorial[i]
+        lista = lista[0]
+        if id == lista:
+            historial = listaHistorial[i]
+    return historial

@@ -201,18 +201,16 @@ def cambioOrden(correo):
 
 # muestra el menu de productos actual
 def mostrarMenu():
-    cursorCafe.execute("SELECT * FROM productos")
     print(""""MENU ACTUAL
 (ID, PRODUCTO, PRECIO)""")
-    for producto in cursorCafe.fetchall():
+    for producto in dbProductos:
         print(producto)
 
 
 # muestra la lista de usuarios registrados
 def mostrarUsuarios():
-    cursorCafe.execute("SELECT * FROM usuarios")
     print("ID, Nombre, E-Mail, Contraseña")
-    for linea in cursorCafe.fetchall():
+    for linea in dbUsuarios:
         print(linea)
 
 
