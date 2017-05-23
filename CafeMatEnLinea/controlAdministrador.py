@@ -22,8 +22,12 @@ Seleccione la opcion deseada:
         notificarUsuario()
     elif opcion == 4:
         consultarOrdenes()
+<<<<<<< HEAD
     elif opcion == 5:
         bangarang()
+=======
+        main()
+>>>>>>> refs/remotes/origin/master
     else:
         print("Adios Administrador!")
         import CafeMATEnLinea
@@ -216,4 +220,3 @@ def consultarOrdenes():
     print("ID, Productos, Precio, Entregado?")
     for i in dbHistorial:
         print(i)
-    main()

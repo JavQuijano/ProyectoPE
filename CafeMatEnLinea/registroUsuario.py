@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+# modulo para el manejo de bases de datos
+>>>>>>> refs/remotes/origin/master
 import controlBaseDatos
 
 

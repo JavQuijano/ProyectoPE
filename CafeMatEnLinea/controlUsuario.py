@@ -1,8 +1,10 @@
 # modulo para el manejo de la base de datos
-import sqlite3
+import controlAdministrador
+import controlBaseDatos
 # coneccion con la base de datos
-connCafe = sqlite3.connect('CafeMAT.db')
-cursorCafe = connCafe.cursor()
+dbUsuarios = controlBaseDatos.iniciarUsuarios()
+dbProductos = controlBaseDatos.iniciarProductos()
+dbHistorial = controlBaseDatos.iniciarHistorial()
 
 
 # menu principal para los usuarios
@@ -19,8 +21,9 @@ def main():
         # funciones para modificar tabla usuarios
         print("place holder")
     elif opcion == 3:
-        # funciones consultar tabla historial
-        print("place holder")
+        for i in dbHistorial:
+            print(i)
+        main()
     # cierra el programa del usuario y regresa al menu principal
     else:
         print("Adios Usuario!")
@@ -38,17 +41,26 @@ def realizarPedido():
 
 # confirma con el usuario que su pedido este correcto
 def confirmarPedido(pedido, cantidadProductos):
+    precioProducto = []
+    nombreProducto = []
+    sumaPrecio = float(0)
+    sumaProducto = ""
     for i in range(cantidadProductos):
-        cursorCafe.execute("SELECT precio FROM productos WHERE ID = ?", (pedido[i],))
-        precioProducto = cursorCafe.fetchone()
-        cursorCafe.execute("SELECT producto FROM productos WHERE ID = ?", (pedido[i],))
-        nombreProducto = cursorCafe.fetchone()
-        print("Precio Producto {} es: {}".format(nombreProducto, precioProducto))
+        producto = controlBaseDatos.buscarProductos(int(pedido[i]))
+        precioProducto.append(producto[2])
+        nombreProducto.append(producto[1])
+        sumaPrecio = sumaPrecio + precioProducto[i]
+        sumaProducto = sumaProducto + nombreProducto[i]
+    print("Precio Productos {} es: {}".format(sumaProducto, sumaPrecio))
+    pedidoCompleto = [(len(dbHistorial)+1), sumaProducto, sumaPrecio]
     confirmacion = input('Esta correcta su orden? "1 = SI o 2 = NO"\n')
     if confirmacion == "1":
+        dbHistorial.append(pedidoCompleto)
+        controlBaseDatos.mandarPedidos(dbHistorial)
         compraNueva = input('Gracias por su orden, ¿Desea ordenar algo mas?: "1 = SI o 2 = NO"\n')
         if compraNueva == "1":
-            # Implementacion de notificacion por correo aqui enviar variable "pedido".
+            dbHistorial.append(pedidoCompleto)
+            controlBaseDatos.mandarPedidos(dbHistorial)
             realizarPedido()
         else:
             main()
@@ -63,4 +75,7 @@ def requerirPedido(cantidadProductos):
     for i in range(int(cantidadProductos)):
         pedido.append(input('producto {}:'.format(i + 1)))
     return pedido
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
