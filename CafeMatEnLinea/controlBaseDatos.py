@@ -138,8 +138,6 @@ def buscarOrdenes(identificador):
     return historial
 
 
-<<<<<<< HEAD
-=======
 def mandarPedidos(dbHistorial):
     n = 1
     for i in range(len(dbHistorial)):
@@ -149,4 +147,3 @@ def mandarPedidos(dbHistorial):
         VALUES (?, ?, 0)""", (dbHistorial[i][1], dbHistorial[i][2]))
         connCafe.commit()
         n += 1
->>>>>>> refs/remotes/origin/master

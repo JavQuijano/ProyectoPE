@@ -13,7 +13,8 @@ Seleccione la opcion deseada:
 3. Notificar Usuario
 4. Consultar Ordenes
 5. Bannear Usuario
-6. Cerrar Programa\n"""))
+6. Actualizar Base de Datos
+7. Cerrar Programa\n"""))
     if opcion == 1:
         eliminarUsuarios()
     elif opcion == 2:
@@ -22,15 +23,18 @@ Seleccione la opcion deseada:
         notificarUsuario()
     elif opcion == 4:
         consultarOrdenes()
-<<<<<<< HEAD
     elif opcion == 5:
         bangarang()
-=======
-        main()
->>>>>>> refs/remotes/origin/master
+    elif opcion == 6:
+        controlBaseDatos.mandarUsuarios(dbUsuarios)
+        controlBaseDatos.mandarProductos(dbProductos)
+        controlBaseDatos.mandarPedidos(dbHistorial)
     else:
         print("Adios Administrador!")
         import CafeMATEnLinea
+        controlBaseDatos.mandarUsuarios(dbUsuarios)
+        controlBaseDatos.mandarProductos(dbProductos)
+        controlBaseDatos.mandarPedidos(dbHistorial)
         CafeMATEnLinea.main()
 
 
@@ -177,12 +181,13 @@ def notificarUsuario():
 
 
 def bangarang():
+    mostrarUsuarios()
     bannear = int(input("Ingrese ID del usuario a Bannear\n"))-1
     # confirmacion
-    confirmacion = int(input("Desea Bannear al usuario", dbUsuarios[bannear]))
-    input("1 = SI , 2 = NO")
+    confirmacion = int(input("Desea Bannear al usuario {}?  1 = SI , 2 = NO".format(dbUsuarios[bannear])))
     if confirmacion == 1:
         dbUsuarios[bannear][4] = 0
+        mostrarUsuarios()
     else:
         main()
 

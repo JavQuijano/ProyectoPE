@@ -75,7 +75,3 @@ def requerirPedido(cantidadProductos):
     for i in range(int(cantidadProductos)):
         pedido.append(input('producto {}:'.format(i + 1)))
     return pedido
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
