@@ -3,11 +3,6 @@ import iniciarSesion
 import registroUsuario
 import controlUsuario
 import controlAdministrador
-import sys
-import sqlite3
-# abrimos la coneccion con la base de datos
-connCafe = sqlite3.connect("CafeMAT.db")
-cursorCafe = connCafe.cursor()
 
 
 # la funcion principal que le dara orden a nuestro programa
@@ -42,9 +37,6 @@ def main():
     # cierra el programa si la opcion es seleccionada
     else:
         print("Hasta Luego, Muchas Gracias!!!")
-        cursorCafe.close()
-        connCafe.close()
-        sys.exit()
 
 
 main()

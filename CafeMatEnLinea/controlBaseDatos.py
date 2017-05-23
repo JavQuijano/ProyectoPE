@@ -149,6 +149,7 @@ def mandarPedidos(dbHistorial):
         n += 1
 
 
+
 def mandarProductos(dbProductos):
     n = 1
     for i in range(len(dbProductos)):

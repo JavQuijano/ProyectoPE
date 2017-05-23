@@ -1,9 +1,5 @@
-# modulo para el manejo de base de datos
 import controlBaseDatos
-import sqlite3
-# coneccion con la base de datos
-connCafe = sqlite3.connect('CafeMAT.db')
-cursorCafe = connCafe.cursor()
+
 dbUsuarios = controlBaseDatos.iniciarUsuarios()
 dbProductos = controlBaseDatos.iniciarProductos()
 dbHistorial = controlBaseDatos.iniciarHistorial()
@@ -16,7 +12,9 @@ Seleccione la opcion deseada:
 2. Modificar Menu
 3. Notificar Usuario
 4. Consultar Ordenes
-5. Cerrar Programa\n"""))
+5. Bannear Usuario
+6. Actualizar Base de Datos
+7. Cerrar Programa\n"""))
     if opcion == 1:
         eliminarUsuarios()
     elif opcion == 2:
@@ -25,24 +23,31 @@ Seleccione la opcion deseada:
         notificarUsuario()
     elif opcion == 4:
         consultarOrdenes()
-        main()
+    elif opcion == 5:
+        bangarang()
+    elif opcion == 6:
+        controlBaseDatos.mandarUsuarios(dbUsuarios)
+        controlBaseDatos.mandarProductos(dbProductos)
+        controlBaseDatos.mandarPedidos(dbHistorial)
     else:
         print("Adios Administrador!")
         import CafeMATEnLinea
+        controlBaseDatos.mandarUsuarios(dbUsuarios)
+        controlBaseDatos.mandarProductos(dbProductos)
+        controlBaseDatos.mandarPedidos(dbHistorial)
         CafeMATEnLinea.main()
 
 
 # funcion para la eliminacion de usuarios
 def eliminarUsuarios():
     mostrarUsuarios()
-    eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))
-    cursorCafe.execute("SELECT * FROM usuarios WHERE id = ?", (eliminado,))
-    usuario = cursorCafe.fetchall()
+    eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))-1
     # confirma si se desea eliminar al usuario seleccionado
-    confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(usuario))
+    confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(dbUsuarios[eliminado]))
     if confirmacion == '1':
-        cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (eliminado,))
-        connCafe.commit()
+        del dbUsuarios[eliminado]
+        for eliminado in range (len(dbUsuarios)):
+            dbUsuarios[eliminado][0] = eliminado+1
         # confirma si se desea regresar al menu principal
         regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
         if regresar == '1':
@@ -95,36 +100,26 @@ def modificarProducto():
 # funcion para modificar el precio de algun producto
 def modificarPrecio():
     mostrarMenu()
-    modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
-    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorCafe.fetchall()
+    modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))-1
     # se confirma con el administrador el producto a modificar
-    print("Se Modificara el precio de {}".format(productoAModificar))
+    print("Se Modificara el precio de ", dbProductos[modificar])
     nuevoPrecio = input("Ingrese el nuevo precio del producto\n")
-    cursorCafe.execute("UPDATE productos SET precio = ? WHERE ID = ?", (nuevoPrecio, modificar,))
-    connCafe.commit()
-    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorCafe.fetchall()
+    dbProductos[modificar][2] = nuevoPrecio
     # se muestran los cambios realizados
-    print("El nuevo producto es {}".format(productoAModificar))
+    print("El nuevo producto es ", dbProductos[modificar])
     modificarProducto()
 
 
 # funcion para modificar el nombre de algun producto
 def modificarNombre():
     mostrarMenu()
-    modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))
-    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorCafe.fetchall()
+    modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))-1
     # se confirma con el administrador el producto a modificar
-    print("Se Modificara el nombre de {}".format(productoAModificar))
+    print("Se Modificara el nombre de ", dbProductos[modificar])
     nuevoNombre = input("Ingrese el nuevo nombre del producto\n")
-    cursorCafe.execute("UPDATE productos SET producto = ? WHERE ID = ?", (nuevoNombre, modificar,))
-    connCafe.commit()
-    cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (modificar,))
-    productoAModificar = cursorCafe.fetchall()
+    dbProductos[modificar][1] = nuevoNombre
     # se muestran los cambios realizados
-    print("El nuevo producto es {}".format(productoAModificar))
+    print("El nuevo producto es ", dbProductos[modificar])
     modificarProducto()
 
 
@@ -137,10 +132,10 @@ def agregarProducto():
     while opcion == 1:
         nombreProducto = input("Ingresar el nombre del nuevo producto\n")
         precioProducto = input("Ingresar el precio del nuevo producto\n")
+        id = len(dbProductos)+1
         # se agrega el producto a la base de datos
-        cursorCafe.execute("""INSERT INTO productos(producto, precio) VALUES
-            (?, ?)""", (nombreProducto, precioProducto))
-        connCafe.commit()
+        nuevoProducto = [id, nombreProducto, precioProducto]
+        dbProductos.append(nuevoProducto)
         opcion = int(input("Desea agregar otro producto? 1 = 'SI' o 2 = 'NO'\n"))
     modificarMenu()
 
@@ -152,14 +147,13 @@ def eliminarProducto():
      1. Eliminar Producto
      2. Volver al Menu Principal\n"""))
     if opcion == 1:
-        eliminado = int(input("Escriba el ID del producto que desea eliminar\n"))
-        cursorCafe.execute("SELECT * FROM productos WHERE ID = ?", (eliminado,))
-        producto = cursorCafe.fetchall()
+        eliminado = int(input("Escriba el ID del producto que desea eliminar\n"))-1
         # se confirma con el administraodr si desea eliminar el producto seleccionado
-        confirmacion = int(input("Desea eliminar a {}? 1 = SI o 2 = NO\n".format(producto)))
+        confirmacion = int(input("Desea eliminar el producto? 1 = SI o 2 = NO\n"))
         if confirmacion == 1:
-            cursorCafe.execute("DELETE FROM productos WHERE ID = ?", (eliminado,))
-            connCafe.commit()
+            del dbProductos[eliminado]
+            for eliminado in range(len(dbProductos)):
+                dbProductos[eliminado][0] = eliminado
         # se pregunta si se desea regresar el menu o eliminar otro producto.
         regresar = int(input("Desea regresar al menu principal? 1 = SI o 2 = NO\n"))
         if regresar == 1:
@@ -173,30 +167,44 @@ def eliminarProducto():
 # funcion para notificar a los usuarios (aun por correo electronico)
 def notificarUsuario():
     mostrarUsuarios()
-    usuario = int(input("ID del usuario a Notificar:\n"))
-    cursorCafe.execute("SELECT email FROM usuarios WHERE id = ?", (usuario,))
-    correo = cursorCafe.fetchone()
+    usuario = int(input("ID del usuario a Notificar:\n"))-1
     opcion = int(input("""\nOpciones Disponibles:
     1. Orden Lista
     2. Cambio/Cancelacion de Orden
     3. Regresar al Menu Principal\n"""))
     if opcion == 1:
-            ordenLista(correo)
+            ordenLista(usuario)
     elif opcion == 2:
-            cambioOrden(correo)
+            cambioOrden(usuario)
+    else:
+        main()
+
+
+def bangarang():
+    mostrarUsuarios()
+    bannear = int(input("Ingrese ID del usuario a Bannear\n"))-1
+    # confirmacion
+    confirmacion = int(input("Desea Bannear al usuario {}?  1 = SI , 2 = NO".format(dbUsuarios[bannear])))
+    if confirmacion == 1:
+        dbUsuarios[bannear][4] = 0
+        mostrarUsuarios()
     else:
         main()
 
 
 # funcion pendiente orden lista
-def ordenLista(correo):
+def ordenLista(usuario):
     mensaje = "Su orden ya esta lista, favor de ir a recogerla a la cafeteria!"
+    dbHistorial[usuario][3] = 1
+    print(mensaje)
     # Aqui va la notificacion por correo enviar variable "mensaje".
 
 
 # funcion pendiente cambio o eliminacion de orden
-def cambioOrden(correo):
+def cambioOrden(usuario):
     motivo = input("Ingrese el Motivo de el cambio o cancelación de la orden:\n")
+    dbHistorial[usuario][4] = motivo
+    print(motivo)
     # Aqui va la notificacion por correo enviar variable "motivo".
 
 
