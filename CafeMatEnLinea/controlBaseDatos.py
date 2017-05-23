@@ -143,8 +143,8 @@ def mandarPedidos(dbHistorial):
     for i in range(len(dbHistorial)):
         cursorCafe.execute("DELETE FROM historial WHERE id = ?", (n,))
         connCafe.commit()
-        cursorCafe.execute("""INSERT INTO historial (pedido, total, entregada)
-        VALUES (?, ?, 0)""", (dbHistorial[i][1], dbHistorial[i][2]))
+        cursorCafe.execute("""INSERT INTO historial (pedido, total, entregada, motivo)
+        VALUES (?, ?, 0, "")""", (dbHistorial[i][1], dbHistorial[i][2]))
         connCafe.commit()
         n += 1
 
