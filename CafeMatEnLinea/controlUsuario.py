@@ -12,15 +12,11 @@ def main():
     opcion = int(input("""Bienvenido Usuario
     Opciones Disponibles:
     1. Realizar Pedido
-    2. Cambiar Informacion de Perfil
-    3. Historial de Compras
-    4. Cerrar sesion\n"""))
+    2. Historial de Compras
+    3. Cerrar sesion\n"""))
     if opcion == 1:
         realizarPedido()
     elif opcion == 2:
-        # funciones para modificar tabla usuarios
-        print("place holder")
-    elif opcion == 3:
         for i in dbHistorial:
             print(i)
         main()

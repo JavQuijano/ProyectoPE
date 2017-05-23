@@ -47,7 +47,7 @@ def eliminarUsuarios():
     if confirmacion == '1':
         del dbUsuarios[eliminado]
         for eliminado in range (len(dbUsuarios)):
-            dbUsuarios[eliminado][0] = eliminado
+            dbUsuarios[eliminado][0] = eliminado+1
         # confirma si se desea regresar al menu principal
         regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
         if regresar == '1':
@@ -167,7 +167,7 @@ def eliminarProducto():
 # funcion para notificar a los usuarios (aun por correo electronico)
 def notificarUsuario():
     mostrarUsuarios()
-    usuario = int(input("ID del usuario a Notificar:\n"))
+    usuario = int(input("ID del usuario a Notificar:\n"))-1
     opcion = int(input("""\nOpciones Disponibles:
     1. Orden Lista
     2. Cambio/Cancelacion de Orden
@@ -193,15 +193,17 @@ def bangarang():
 
 
 # funcion pendiente orden lista
-def ordenLista(correo):
+def ordenLista(usuario):
     mensaje = "Su orden ya esta lista, favor de ir a recogerla a la cafeteria!"
+    dbHistorial[usuario][3] = 1
     print(mensaje)
     # Aqui va la notificacion por correo enviar variable "mensaje".
 
 
 # funcion pendiente cambio o eliminacion de orden
-def cambioOrden(correo):
+def cambioOrden(usuario):
     motivo = input("Ingrese el Motivo de el cambio o cancelación de la orden:\n")
+    dbHistorial[usuario][4] = motivo
     print(motivo)
     # Aqui va la notificacion por correo enviar variable "motivo".
 
