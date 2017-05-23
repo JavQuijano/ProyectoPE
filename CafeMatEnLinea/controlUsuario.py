@@ -30,7 +30,7 @@ def main():
 
 # requiere la informacion de pedido del usuario
 def realizarPedido():
-    mostrarMenu()
+    controlAdministrador.mostrarMenu()
     cantidadProductos = int(input("Ingrese cuantos productos desea comprar: "))
     pedido = requerirPedido(cantidadProductos)
     confirmarPedido(pedido, cantidadProductos)

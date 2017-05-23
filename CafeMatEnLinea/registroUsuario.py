@@ -1,9 +1,5 @@
-# modulo para el manejo de bases de datos
-import sqlite3
 import controlBaseDatos
-# coneccion con la base de datos
-connCafe = sqlite3.connect('CafeMAT.db')
-cursorCafe = connCafe.cursor()
+
 
 
 # funcion main requiere la informacion que se ingresara a la base de datos

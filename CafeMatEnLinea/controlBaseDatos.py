@@ -136,8 +136,5 @@ def buscarOrdenes(id):
         if id == lista:
             historial = listaHistorial[i]
     return historial
-<<<<<<< HEAD
 
 
-=======
->>>>>>> refs/remotes/origin/master
