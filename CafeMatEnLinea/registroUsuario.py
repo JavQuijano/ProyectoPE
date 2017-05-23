@@ -1,7 +1,6 @@
 import controlBaseDatos
 
 
-
 # funcion main requiere la informacion que se ingresara a la base de datos
 def main():
     # Ingresamos la información que queremos ingresar a la base de datos.
