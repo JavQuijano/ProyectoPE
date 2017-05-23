@@ -147,3 +147,25 @@ def mandarPedidos(dbHistorial):
         VALUES (?, ?, 0)""", (dbHistorial[i][1], dbHistorial[i][2]))
         connCafe.commit()
         n += 1
+
+
+def mandarProductos(dbProductos):
+    n = 1
+    for i in range(len(dbProductos)):
+        cursorCafe.execute("DELETE FROM productos WHERE id = ?", (n,))
+        connCafe.commit()
+        cursorCafe.execute("""INSERT INTO historial (producto, precio)
+        VALUES (?, ?)""", (dbProductos[i][1], dbProductos[i][2]))
+        connCafe.commit()
+        n += 1
+
+
+def mandarUsuarios(dbUsuarios):
+    n = 1
+    for i in range(len(dbUsuarios)):
+        cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (n,))
+        connCafe.commit()
+        cursorCafe.execute("""INSERT INTO usuarios (nombre, email, contraseña, bandera)
+            VALUES (?, ?, ?, 1)""", (dbUsuarios[i][1], dbUsuarios[i][2], dbUsuarios[i][3]))
+        connCafe.commit()
+        n += 1
