@@ -51,7 +51,8 @@ def tablaHistorial():
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         pedido TEXT NOT NULL,
         total REAL NOT NULL,
-        entregada INTEGER NOT NULL)""")
+        entregada INTEGER NOT NULL,
+        motivo TEXT NOT NULL)""")
         connCafe.commit()
     except sqlite3.OperationalError:
         print("la tabla historial no fue creada correctamente")
