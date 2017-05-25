@@ -29,7 +29,7 @@ def main():
 
 # requiere la informacion de pedido del usuario
 def realizarPedido():
-    controlAdministrador.mostrarMenu()
+    controlBaseDatos.mostrarMenu(dbProductos)
     cantidadProductos = int(input("Ingrese cuantos productos desea comprar: "))
     pedido = requerirPedido(cantidadProductos)
     confirmarPedido(pedido, cantidadProductos)

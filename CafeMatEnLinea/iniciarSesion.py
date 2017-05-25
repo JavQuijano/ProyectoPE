@@ -19,7 +19,8 @@ def verificarBaseDatos(correo, contraseña):
         else:
             print('la contraseña no corresponde con el correo, favor de ingresarla nuevamente.')
             contraseña = input('Ingrese su contraseña: ')
-        if data[4] == 0:
+        if data[4] == 1:
+            print("Usuario Banneado por administrador")
             identificador = "bann"
             break
     return identificador

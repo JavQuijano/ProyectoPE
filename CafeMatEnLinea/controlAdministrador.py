@@ -14,7 +14,7 @@ Seleccione la opcion deseada:
 4. Consultar Ordenes
 5. Bannear Usuario
 6. Actualizar Base de Datos
-7. Cerrar Programa\n"""))
+7. Cerrar Sesión\n"""))
     if opcion == 1:
         eliminarUsuarios()
     elif opcion == 2:
@@ -22,7 +22,7 @@ Seleccione la opcion deseada:
     elif opcion == 3:
         notificarUsuario()
     elif opcion == 4:
-        consultarOrdenes()
+        controlBaseDatos.consultarOrdenes(dbHistorial)
     elif opcion == 5:
         bangarang()
     elif opcion == 6:
@@ -40,14 +40,15 @@ Seleccione la opcion deseada:
 
 # funcion para la eliminacion de usuarios
 def eliminarUsuarios():
-    mostrarUsuarios()
+    controlBaseDatos.mostrarUsuarios(dbUsuarios)
+    reset = 1
     eliminado = int(input("Escriba el ID del usuario que desea eliminar\n"))-1
     # confirma si se desea eliminar al usuario seleccionado
     confirmacion = input("Desea eliminar a {}? '1 = SI' o '2 = NO'\n".format(dbUsuarios[eliminado]))
     if confirmacion == '1':
         del dbUsuarios[eliminado]
-        for eliminado in range (len(dbUsuarios)):
-            dbUsuarios[eliminado][0] = eliminado+1
+        for reset in range((len(dbUsuarios))):
+            dbUsuarios[reset][0] = reset+1
         # confirma si se desea regresar al menu principal
         regresar = input("Desea regresar al menu principal? '1 = SI' o '2 = NO'\n")
         if regresar == '1':
@@ -99,7 +100,7 @@ def modificarProducto():
 
 # funcion para modificar el precio de algun producto
 def modificarPrecio():
-    mostrarMenu()
+    controlBaseDatos.mostrarMenu(dbProductos)
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))-1
     # se confirma con el administrador el producto a modificar
     print("Se Modificara el precio de ", dbProductos[modificar])
@@ -112,7 +113,7 @@ def modificarPrecio():
 
 # funcion para modificar el nombre de algun producto
 def modificarNombre():
-    mostrarMenu()
+    controlBaseDatos.mostrarMenu(dbProductos)
     modificar = int(input("Ingrese el ID del Producto que desea modificar\n"))-1
     # se confirma con el administrador el producto a modificar
     print("Se Modificara el nombre de ", dbProductos[modificar])
@@ -125,7 +126,7 @@ def modificarNombre():
 
 # funcion para agregar nuevos productos a la base de datos
 def agregarProducto():
-    mostrarMenu()
+    controlBaseDatos.mostrarMenu(dbProductos)
     opcion = int(input("""Opciones Disponibles:
     1. Nuevo Producto
     2. Volver al Menu Principal\n"""))
@@ -142,7 +143,7 @@ def agregarProducto():
 
 # funcion para eliminar los productos de la base de datos
 def eliminarProducto():
-    mostrarMenu()
+    controlBaseDatos.mostrarMenu(dbProductos)
     opcion = int(input("""Opciones Disponibles:
      1. Eliminar Producto
      2. Volver al Menu Principal\n"""))
@@ -166,7 +167,7 @@ def eliminarProducto():
 
 # funcion para notificar a los usuarios (aun por correo electronico)
 def notificarUsuario():
-    mostrarUsuarios()
+    controlBaseDatos.mostrarUsuarios(dbUsuarios)
     usuario = int(input("ID del usuario a Notificar:\n"))-1
     opcion = int(input("""\nOpciones Disponibles:
     1. Orden Lista
@@ -181,15 +182,17 @@ def notificarUsuario():
 
 
 def bangarang():
-    mostrarUsuarios()
+    controlBaseDatos.mostrarUsuarios(dbUsuarios)
     bannear = int(input("Ingrese ID del usuario a Bannear\n"))-1
     # confirmacion
     confirmacion = int(input("Desea Bannear al usuario {}?  1 = SI , 2 = NO".format(dbUsuarios[bannear])))
     if confirmacion == 1:
-        dbUsuarios[bannear][4] = 0
-        mostrarUsuarios()
+        dbUsuarios[bannear][4] = 1
+        controlBaseDatos.mostrarUsuarios(dbUsuarios)
+        controlBaseDatos.mandarUsuarios(dbUsuarios)
     else:
         main()
+    main()
 
 
 # funcion pendiente orden lista
@@ -197,7 +200,6 @@ def ordenLista(usuario):
     mensaje = "Su orden ya esta lista, favor de ir a recogerla a la cafeteria!"
     dbHistorial[usuario][3] = 1
     print(mensaje)
-    # Aqui va la notificacion por correo enviar variable "mensaje".
 
 
 # funcion pendiente cambio o eliminacion de orden
@@ -205,25 +207,3 @@ def cambioOrden(usuario):
     motivo = input("Ingrese el Motivo de el cambio o cancelación de la orden:\n")
     dbHistorial[usuario][4] = motivo
     print(motivo)
-    # Aqui va la notificacion por correo enviar variable "motivo".
-
-
-# muestra el menu de productos actual
-def mostrarMenu():
-    print(""""MENU ACTUAL
-(ID, PRODUCTO, PRECIO)""")
-    for producto in dbProductos:
-        print(producto)
-
-
-# muestra la lista de usuarios registrados
-def mostrarUsuarios():
-    print("ID, Nombre, E-Mail, Contraseña")
-    for linea in dbUsuarios:
-        print(linea)
-
-
-def consultarOrdenes():
-    print("ID, Productos, Precio, Entregado?")
-    for i in dbHistorial:
-        print(i)

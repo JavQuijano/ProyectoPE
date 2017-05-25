@@ -3,65 +3,11 @@ connCafe = sqlite3.connect("CafeMAT.db")
 cursorCafe = connCafe.cursor()
 
 
-# funciones tabla productos
-def agregarProducto(nombreProducto, precioProducto):
-    cursorCafe.execute("""INSERT INTO productos (producto, precio)
-    VALUES (?, ?)""", (nombreProducto, precioProducto))
-    connCafe.commit()
-
-
-def eliminarProducto(identificador):
-    cursorCafe.execute("""DELETE FROM productos
-    WHERE id = ?""", (identificador,))
-    connCafe.commit()
-
-
-def modificarPrecio(identificador, nuevoPrecio):
-    cursorCafe.execute("""UPDATE productos SET precio = ?
-    WHERE id = ?""", (nuevoPrecio, identificador))
-    connCafe.commit()
-
-
-def modificarNombre(identificador, nuevoNombre):
-    cursorCafe.execute("""UPDATE productos SET producto = ?
-    WHERE id = ?""", (nuevoNombre, identificador))
-    connCafe.commit()
-
-
 # funciones tabla usuarios
 def agregarUsuario(nombre, email, contraseña):
     cursorCafe.execute("""INSERT INTO usuarios (nombre, email, contraseña, bandera)
-    VALUES (?, ?, ?, 1)""", (nombre, email, contraseña))
+    VALUES (?, ?, ?, 0)""", (nombre, email, contraseña))
     connCafe.commit()
-
-
-def eliminarUsuario(identificador):
-    cursorCafe.execute("""DELETE FROM usuarios
-    WHERE id = ?""", (identificador,))
-    connCafe.commit()
-
-
-# funciones imprimir tablas
-def imprimirMenu():
-    cursorCafe.execute("SELECT * FROM productos")
-    print(""""MENU ACTUAL
-(ID, PRODUCTO, PRECIO)""")
-    for producto in cursorCafe.fetchall():
-        print(producto)
-
-
-def imprimirUsuarios():
-    cursorCafe.execute("SELECT * FROM usuarios")
-    print("ID, Nombre, E-Mail, Contraseña")
-    for usuario in cursorCafe.fetchall():
-        print(usuario)
-
-
-def imprimirOrdenes():
-    cursorCafe.execute("SELECT * FROM ordenes")
-    print("ID, Productos, Precio")
-    for orden in cursorCafe.fetchall():
-        print(orden)
 
 
 def iniciarUsuarios():
@@ -149,7 +95,6 @@ def mandarPedidos(dbHistorial):
         n += 1
 
 
-
 def mandarProductos(dbProductos):
     n = 1
     for i in range(len(dbProductos)):
@@ -163,10 +108,31 @@ def mandarProductos(dbProductos):
 
 def mandarUsuarios(dbUsuarios):
     n = 1
-    for i in range(len(dbUsuarios)):
+    for i in range(1, len(dbUsuarios)):
         cursorCafe.execute("DELETE FROM usuarios WHERE id = ?", (n,))
         connCafe.commit()
         cursorCafe.execute("""INSERT INTO usuarios (nombre, email, contraseña, bandera)
-            VALUES (?, ?, ?, 1)""", (dbUsuarios[i][1], dbUsuarios[i][2], dbUsuarios[i][3]))
+            VALUES (?, ?, ?, 0)""", (dbUsuarios[i][1], dbUsuarios[i][2], dbUsuarios[i][3]))
         connCafe.commit()
         n += 1
+
+
+# muestra el menu de productos actual
+def mostrarMenu(dbProductos):
+    print(""""MENU ACTUAL
+(ID, PRODUCTO, PRECIO)""")
+    for producto in dbProductos:
+        print(producto)
+
+
+# muestra la lista de usuarios registrados
+def mostrarUsuarios(dbUsuarios):
+    print("ID, Nombre, E-Mail, Contraseña")
+    for linea in dbUsuarios:
+        print(linea)
+
+
+def consultarOrdenes(dbHistorial):
+    print("ID, Productos, Precio, Entregado?")
+    for i in dbHistorial:
+        print(i)
